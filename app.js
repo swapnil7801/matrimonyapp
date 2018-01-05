@@ -20,17 +20,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/index', routes);
-app.use('/users', users);
+// app.use('/index', routes);
+// app.use('/users', users);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+// // catch 404 and forward to error handler
+// app.use(function(req, res, next) {
+//   var err = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
+// });
+
+ app.get('/', function (req, res) {
+  // try to initialize the db on every request if it's not already
+  // initialized.
+   res.send('matrimony Microservice Up and running');
+  
 });
 
- 
     
 Object.assign=require('object-assign')
 
@@ -85,12 +91,6 @@ var initDb = function(callback) {
   });
 };
 
-app.get('/', function (req, res) {
-  // try to initialize the db on every request if it's not already
-  // initialized.
-   res.send('matrimony Microservice Up and running');
-  
-});
 
  
 
