@@ -17,6 +17,7 @@
     "request-ip": "^1.2.2",
     "serve-favicon": "~2.3.0",
     "underscore": "^1.8.3",
-    "object-assign":"4.1.0"
+    "object-assign":"4.1.0",
+    "mongodb": "^2.1.16"
   }
 }
