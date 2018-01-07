@@ -1,10 +1,9 @@
 "use strict";
 let contextPath = process.cwd(); // This is the context path of the application.
 
-	let Bindable = require(contextPath + '/controllers/common/bindable.js');
-	let WheatherController = require(contextPath + '/controllers/wheatherController.js');
-	let requestUtil = require(contextPath + '/utils/requestUtility.js');
-
+let Bindable = require(contextPath + '/controllers/common/bindable.js');
+let UserController = require(contextPath + '/controllers/userController.js');
+let requestUtil = require(contextPath + '/utils/requestUtility.js');
 
 class Controller extends Bindable {
 
@@ -28,10 +27,34 @@ class Controller extends Bindable {
 	}
 
 
-	displayCurrentCityWheather(req,callback) {
-       let wController = new WheatherController(req);
-		wController.displayWheatherByAddress((err, result) => {
-			callback(err,result);
+	userSignUp(req, callback) {
+		let userController = new UserController(req);
+		let output={};
+		userController.userSignUp((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+		userLogin(req, callback) {
+		let userController = new UserController(req);
+		let output={};
+		userController.userLogin((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
 		});
 	}
 

@@ -1,12 +1,14 @@
 var express = require('express');
+let contextPath = process.cwd(); // This is the context path of the application.
 var path = require('path');
 var favicon = require('serve-favicon');
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var mongoose = require('mongoose');
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var users = require(contextPath+'/routes/users');
+let app_config = require(contextPath + '/config/app_config.js');
 
 var app = express();
 
@@ -16,25 +18,39 @@ app.set('views', path.join(__dirname, 'views'));
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 // app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use('/index', routes);
 // app.use('/users', users);
+ 
+app.use(bodyParser.text({
+    type: 'text/xml'
+}));
 
-// // catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   var err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 
  app.get('/', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
    res.send('matrimony Microservice Up and running');
   
+});
+app.use('/api/user', users);
+
+
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('URL Not Found');
+  err.status = 404;
+  next(err);
 });
 
     
@@ -70,29 +86,45 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 var db = null,
     dbDetails = new Object();
 
-var initDb = function(callback) {
-  if (mongoURL == null) return;
+// var initDb = function(callback) {
+//   if (mongoURL == null) return;
 
-  var mongodb = require('mongodb');
-  if (mongodb == null) return;
+//   var mongodb = require('mongodb');
+//   if (mongodb == null) return;
 
-  mongodb.connect(mongoURL, function(err, conn) {
-    if (err) {
-      callback(err);
-      return;
-    }
+//   mongodb.connect(mongoURL, function(err, conn) {
+//     if (err) {
+//       callback(err);
+//       return;
+//     }
 
-    db = conn;
-    dbDetails.databaseName = db.databaseName;
-    dbDetails.url = mongoURLLabel;
-    dbDetails.type = 'MongoDB';
+//     db = conn;
+//     dbDetails.databaseName = db.databaseName;
+//     dbDetails.url = mongoURLLabel;
+//     dbDetails.type = 'MongoDB';
 
-    console.log('Connected to MongoDB at: %s', mongoURL);
-  });
-};
+//     console.log('Connected to MongoDB at: %s', mongoURL);
+//   });
+// };
+
+var datasource= function() {
+            // console.log('Using mongoose datasource - ' + config.db_url);
+            if (app_config.app_env == "local") {
+              mongoURL=app_config.db_url;
+            }  
+            console.log("url-->",mongoURL);
+            // mongoose.connect(mongoURL);
+            mongoose.connect(mongoURL, {
+              useMongoClient: true
+            });
+            var db = mongoose.connection;
+            db.on('error', console.error.bind(console, 'connection error...'));
+            db.once('open', function callback() {
+                console.log('matrimony  db opened');
+            });
+        }
 
 
- 
 
 // error handling
 app.use(function(err, req, res, next){
@@ -100,10 +132,8 @@ app.use(function(err, req, res, next){
   res.status(500).send('Something bad happened!');
 });
 
-initDb(function(err){
-  console.log('Error connecting to Mongo. Message:\n'+err);
-});
-
+datasource();
+ 
 app.listen(port, ip);
 console.log('Server running on http://%s:%s', ip, port);
 
