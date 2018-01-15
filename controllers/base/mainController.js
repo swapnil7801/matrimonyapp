@@ -29,7 +29,7 @@ class Controller extends Bindable {
 
 	userSignUp(req, callback) {
 		let userController = new UserController(req);
-		let output={};
+		let output = {};
 		userController.userSignUp((err, result) => {
 			if (err) {
 				output.status = 2;
@@ -42,9 +42,9 @@ class Controller extends Bindable {
 			}
 		});
 	}
-		userLogin(req, callback) {
+	userLogin(req, callback) {
 		let userController = new UserController(req);
-		let output={};
+		let output = {};
 		userController.userLogin((err, result) => {
 			if (err) {
 				output.status = 2;
@@ -57,7 +57,51 @@ class Controller extends Bindable {
 			}
 		});
 	}
-
+	resendOtp(req, callback) {
+		let userController = new UserController(req);
+		let output = {};
+		userController.resendOtp((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	verifyOtp(req, callback) {
+		let userController = new UserController(req);
+		let output = {};
+		userController.verifyOtp((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	updateProfile(req, callback) {
+		let userController = new UserController(req);
+		let output = {};
+		userController.updateProfile((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
 }
 
 module.exports = Controller;

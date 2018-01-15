@@ -19,4 +19,19 @@ router.post('/login', function(req, res) {
   	   res.send(result);
   	});
 }); 
+router.get('/otp/:mobileNo', function(req, res) {
+   ctrl_base.resendOtp(req,(result) => {
+  	   res.send(result);
+  	});
+});
+router.put('/profile/:id', function(req, res) {
+   ctrl_base.updateProfile(req,(result) => {
+  	   res.send(result);
+  	});
+});
+router.get('/verifyOtp/:mobileno/:otp', function(req, res) {
+   ctrl_base.verifyOtp(req,(result) => {
+  	   res.send(result);
+  	});
+});
 module.exports = router;

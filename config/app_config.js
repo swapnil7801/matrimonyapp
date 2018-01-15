@@ -21,9 +21,18 @@ var mongodb_url = 'mongodb://localhost:27017/'+db_name;
 // 	db_name:  process.env.db_name,//  || process.env.OPENSHIFT_APP_NAME,
 // 	};
 
+
+////CHANGE THE app_env to LOCAL in local ENV.
+var twilio_accountSid='ACa0c8e551bbea3c89979229b4e55f58ad';
+var twilio_authToken='3b8ad5dd768229c743d988b69c5206b8';
+var twilio_no='+19166686363';
+// var twilio_no='+1916-668-6363';
 var appconfig = {
 	db_url: mongodb_url,
-	app_env:"prod"
+	app_env:"prod",
+	twilio_authToken:twilio_authToken,
+	twilio_accountSid:twilio_accountSid,
+	twilio_no:twilio_no
 	};
 
 module.exports = appconfig;

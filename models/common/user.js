@@ -13,23 +13,43 @@ var uniqueValidator = require('mongoose-unique-validator');
 var userSchema = mongoose.Schema({
     firstname: String,
     lastname: String,
-    email: { type: String, index: true, unique: true, required: true },
-    password: { type: String, required: true },
+    otp: String,
+    email: {
+        type: String,
+        index: true,
+        unique: true
+    },
+    password: {
+        type: String
+    },
     role: String,
     dob: Date,
-    age: {type:Number,required:true},
-    mobileno: {type:Number,required:true},
-    city:String,
+    age: {
+        type: Number
+    },
+    mobileno: {
+        type: Number,
+        unique: true
+    },
+    city: String,
     gender: {
         type: String,
         enum: ['MALE', 'FEMALE'],
-        default: 'FEMALE'
-     },
-     bio:String,
+        default: 'MALE'
+    },
     registrationdate: {
         type: Date,
         default: Date.now
-    }
+    },
+    birthPlace: String,
+    color: String,
+    height: String,
+    cast: String,
+    gotra: String,
+    education: String,
+    occupation: String,
+    salaryRange: Number,
+    aboutMe: String
 });
 // Apply the uniqueValidator plugin to userSchema.
 userSchema.plugin(uniqueValidator);
@@ -75,7 +95,7 @@ var methods = {
         logger.info('Start: User getById');
         logger.info('Input id =' + id);
         var result = ""
-        if (!id || id.trim() === '') {
+        if (!id || id == '') {
             console.log('Invalid or no input id');
             callback(err, result);
         }
@@ -102,6 +122,26 @@ var methods = {
         }
         User.findOne({
             email: email
+        }).exec(function(err, userRecord) {
+            if (err) {
+                callback(err, result);
+            } else {
+                console.log('Result:' + JSON.stringify(userRecord));
+                result = userRecord;
+                callback(err, result);
+            }
+        });
+    },
+    getByMobile: function(mobileno, callback) {
+        logger.info('Start: User getByMobile');
+        logger.info('Input mobileno =' + mobileno);
+        var result = "";
+        if (!mobileno || mobileno.trim() === '') {
+            console.log('Invalid or no input mobileno');
+            callback(err, result);
+        }
+        User.findOne({
+            mobileno: mobileno
         }).exec(function(err, userRecord) {
             if (err) {
                 callback(err, result);
