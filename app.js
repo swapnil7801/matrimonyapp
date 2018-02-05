@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var routes = require('./routes/index');
 var users = require(contextPath+'/routes/users');
+var dropDown= require(contextPath+ '/routes/dropdown')
 let app_config = require(contextPath + '/config/app_config.js');
 
 var app = express();
@@ -43,6 +44,7 @@ app.use(function(req, res, next) {
   
 });
 app.use('/api/user', users);
+app.use('/api/dropDown', dropDown);
 
 
 

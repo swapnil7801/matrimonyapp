@@ -198,6 +198,9 @@ class UserController extends Bindable {
 				}
 			})
 		}, function(done) {
+			console.log(" object1", db_user_data);
+			console.log("  object2", body);
+
 			update_obj = Object.assign(db_user_data, body);
 			console.log("updated object", update_obj);
 			self.users.methods.update(user_id, update_obj, (err, result) => {
@@ -255,6 +258,41 @@ class UserController extends Bindable {
 
 	}
 
+	getUser(callback) {
+		var user_id = this.request.params.id;
+		var userData={};
+		var outputRecord;
+		var self=this;
+		async.series([function(done) {
+			self.users.methods.getDetailById(user_id, (err, result) => {
+				if (err) {
+					callback(err, null);
+				} else {
+					if (!result) {
+						done('user Not found')
+					} else {
+						userData = result;
+						done();
+					}
+				}
+			});
+		},function(done){
+			 outputRecord = JSON.parse(JSON.stringify(userData));
+
+			delete outputRecord.password;
+			delete outputRecord.otp;
+			done();
+
+		}],function(err){
+			if(err){
+				callback(err,null)
+			}else{
+				callback(null,outputRecord)
+			}
+
+		})
+
+	}
 
 	userLogin(callback) {
 		var body = this.request.body;

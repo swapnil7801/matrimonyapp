@@ -9,6 +9,8 @@ var mongoose = require('mongoose'),
 logger = require(contextPath + '/utils/logger.js'),
     Schema = mongoose.Schema;
 var uniqueValidator = require('mongoose-unique-validator');
+var caste = require(contextPath + '/models/common/caste.js');
+var education = require(contextPath + '/models/common/education.js');
 
 var userSchema = mongoose.Schema({
     firstname: String,
@@ -44,9 +46,15 @@ var userSchema = mongoose.Schema({
     birthPlace: String,
     color: String,
     height: String,
-    cast: String,
+    cast: {
+        type: Schema.Types.ObjectId,
+        ref: 'caste'
+    },
     gotra: String,
-    education: String,
+    education: {
+        type: Schema.Types.ObjectId,
+        ref: 'education'
+    },
     occupation: String,
     salaryRange: Number,
     aboutMe: String
@@ -111,6 +119,30 @@ var methods = {
                 callback(err, result);
             }
         });
+    },
+    getDetailById: function(id, callback) {
+        logger.info('Start: User getById');
+        logger.info('Input id =' + id);
+        var result = ""
+        if (!id || id == '') {
+            console.log('Invalid or no input id');
+            callback(err, result);
+        }
+        User.findOne({
+                _id: id
+            })
+            .populate({ path: 'cast', select: 'name -_id' })
+            .populate({ path: 'education',select: 'name -_id' })
+            .exec(function(err, userRecord) {
+                if (err) {
+                    console.log('Error while obtaining record user with ID=' + id + ' ' + err);
+                    callback(err, result);
+                } else {
+                    console.log('Result:' + JSON.stringify(userRecord));
+                    result = userRecord;
+                    callback(err, result);
+                }
+            });
     },
     getByEmail: function(email, callback) {
         logger.info('Start: User getByEmail');

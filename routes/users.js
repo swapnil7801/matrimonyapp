@@ -34,4 +34,9 @@ router.get('/verifyOtp/:mobileno/:otp', function(req, res) {
   	   res.send(result);
   	});
 });
+router.get('/profile/:id', function(req, res) {
+   ctrl_base.getUser(req,(result) => {
+  	   res.send(result);
+  	});
+});
 module.exports = router;

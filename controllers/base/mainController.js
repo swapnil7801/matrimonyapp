@@ -3,6 +3,7 @@ let contextPath = process.cwd(); // This is the context path of the application.
 
 let Bindable = require(contextPath + '/controllers/common/bindable.js');
 let UserController = require(contextPath + '/controllers/userController.js');
+let DropDownController = require(contextPath + '/controllers/dropDownController.js');
 let requestUtil = require(contextPath + '/utils/requestUtility.js');
 
 class Controller extends Bindable {
@@ -91,6 +92,352 @@ class Controller extends Bindable {
 		let userController = new UserController(req);
 		let output = {};
 		userController.updateProfile((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+
+	getUser(req, callback) {
+		let userController = new UserController(req);
+		let output = {};
+		userController.getUser((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	addCaste(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.addCaste((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	getCaste(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.getCaste((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	addEducation(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.addEducation((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	getEducation(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.getEducation((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	addCity(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.addCity((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	getCity(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.getCity((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	addColor(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.addColor((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	getColor(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.getColor((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	addCountry(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.addCountry((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	getCountry(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.getCountry((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	addGotra(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.addGotra((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	getGotra(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.getGotra((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	addHeight(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.addHeight((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	getHeight(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.getHeight((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	addOccupation(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.addOccupation((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	getOccupation(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.getOccupation((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+addSalary(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.addSalary((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	getSalary(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.getSalary((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+addState(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.addState((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	getState(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.getState((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+addWeight(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.addWeight((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	getWeight(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.getWeight((err, result) => {
 			if (err) {
 				output.status = 2;
 				output.data = err;
