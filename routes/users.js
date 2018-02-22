@@ -39,4 +39,24 @@ router.get('/profile/:id', function(req, res) {
   	   res.send(result);
   	});
 });
+router.get('/get/userList/:offset', function(req, res) {
+   ctrl_base.getUserList(req,(result) => {
+       res.send(result);
+    });
+});
+router.post('/shortListUser', function(req, res) {
+   ctrl_base.shortlistUser(req,(result) => {
+       res.send(result);
+    });
+});
+router.get('/getShorListedUsers/:user_id', function(req, res) {
+   ctrl_base.getShorListedUsers(req,(result) => {
+       res.send(result);
+    });
+});
+router.post('/removeShortListedUser', function(req, res) {
+   ctrl_base.removeShortListedUser(req,(result) => {
+       res.send(result);
+    });
+});
 module.exports = router;

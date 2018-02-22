@@ -105,6 +105,6 @@ var methods = {
         });
     }
 }
-var Gotra = mongoose.model('Gotra', gotraSchema);
+var Gotra = mongoose.model('gotra', gotraSchema);
 module.exports = Gotra;
 module.exports.methods = methods;

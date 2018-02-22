@@ -6,6 +6,7 @@ let Bindable = require(contextPath + '/controllers/common/bindable.js');
 let requestUtil = require(contextPath + '/utils/requestUtility.js');
 let config = require(contextPath + '/config/app_config.js');
 let users = require(contextPath + '/models/common/user.js');
+let favourites = require(contextPath + '/models/common/favourite.js');
 var data = "do shash'owania";
 var crypto = require('crypto');
 let async = require('async');
@@ -18,6 +19,8 @@ class UserController extends Bindable {
 		this.request = request;
 		this.users = users;
 		this.users.methods = users.methods;
+		this.favourites = favourites;
+		this.favourites.methods = favourites.methods;
 	}
 
 
@@ -225,8 +228,9 @@ class UserController extends Bindable {
 	verifyOtp(callback) {
 		var mobileno = this.request.params.mobileno;
 		var otp = this.request.params.otp;
-		var userData={};
-		var self=this;
+		var userData = {};
+		var outputRecord = {};
+		var self = this;
 		async.series([function(done) {
 			self.users.methods.getByMobile(mobileno, (err, result) => {
 				if (err) {
@@ -240,18 +244,22 @@ class UserController extends Bindable {
 					}
 				}
 			});
-		},function(done){
-			if(userData.otp==otp){
+		}, function(done) {
+			if (userData.otp == otp) {
 				done()
-			}else{
+			} else {
 				done('incorrectOtp')
 			}
 
-		}],function(err){
-			if(err){
-				callback(err,null)
-			}else{
-				callback(null,'user_verified')
+		}], function(err) {
+			if (err) {
+				callback(err, null)
+			} else {
+				// delete userData.prototype.password;
+				outputRecord = JSON.parse(JSON.stringify(userData));
+				delete outputRecord.password;
+				delete outputRecord.otp;
+				callback(null, outputRecord);
 			}
 
 		})
@@ -260,9 +268,9 @@ class UserController extends Bindable {
 
 	getUser(callback) {
 		var user_id = this.request.params.id;
-		var userData={};
+		var userData = {};
 		var outputRecord;
-		var self=this;
+		var self = this;
 		async.series([function(done) {
 			self.users.methods.getDetailById(user_id, (err, result) => {
 				if (err) {
@@ -276,23 +284,201 @@ class UserController extends Bindable {
 					}
 				}
 			});
-		},function(done){
-			 outputRecord = JSON.parse(JSON.stringify(userData));
+		}, function(done) {
+			outputRecord = JSON.parse(JSON.stringify(userData));
 
 			delete outputRecord.password;
 			delete outputRecord.otp;
 			done();
 
-		}],function(err){
-			if(err){
-				callback(err,null)
-			}else{
-				callback(null,outputRecord)
+		}], function(err) {
+			if (err) {
+				callback(err, null)
+			} else {
+				callback(null, outputRecord)
 			}
 
 		})
 
 	}
+	getUserList(callback) {
+		var offset = this.request.params.offset;
+		var userData = {};
+		var outputRecord;
+		var self = this;
+		async.series([function(done) {
+			self.users.methods.getAll(offset, (err, result) => {
+				if (err) {
+					callback(err, null);
+				} else {
+					if (!result) {
+						done('user Not found')
+					} else {
+						userData = result;
+						done();
+					}
+				}
+			});
+		}, function(done) {
+			//  outputRecord = JSON.parse(JSON.stringify(userData));
+
+			// delete outputRecord.password;
+			// delete outputRecord.otp;
+			done();
+
+		}], function(err) {
+			if (err) {
+				callback(err, null)
+			} else {
+				callback(null, userData)
+			}
+
+		})
+
+	}
+
+	shortlistUser(callback) {
+		var own_user_id = this.request.body.own_user_id;
+		var shortlist_user_id = this.request.body.shortlist_user_id;
+		var userData = {};
+		var outputRecord;
+		var user_obj;
+		var self = this;
+		async.series([function(done) {
+			self.favourites.methods.getById(own_user_id, (err, result) => {
+				if (err) {
+					callback(err, null);
+				} else {
+					if (!result) {
+						//if not present insert document
+
+						// done('favourites Not found')
+						user_obj = {
+							user_id: own_user_id,
+							favUsers: [shortlist_user_id]
+						}
+						self.favourites.methods.create(user_obj, (err, result) => {
+							if (err) {
+								done('err while creating userFav', err);
+							} else {
+								done();
+							}
+						})
+					} else {
+						//else update///
+						userData = result;
+						// logger.info('userData',JSON.stringify(userData,null,4));
+						logger.info('updating.....', userData._id, shortlist_user_id)
+						self.favourites.methods.update(userData._id, shortlist_user_id, (err, result) => {
+							if (err) {
+								logger.error('err', err);
+								done('err while creating userFav');
+							} else {
+								logger.info('result', result);
+								done();
+							}
+						})
+					}
+				}
+			});
+		}, function(done) {
+			//  outputRecord = JSON.parse(JSON.stringify(userData));
+
+			// delete outputRecord.password;
+			// delete outputRecord.otp;
+			done();
+
+		}], function(err) {
+			if (err) {
+				callback(err, null)
+			} else {
+				callback(null, 'success')
+			}
+
+		})
+
+	}
+	removeShortListedUser(callback) {
+		var own_user_id = this.request.body.own_user_id;
+		var shortlist_user_id = this.request.body.shortlist_user_id;
+		var userData = {};
+		var outputRecord;
+		var user_obj;
+		var self = this;
+		async.series([function(done) {
+			self.favourites.methods.getById(own_user_id, (err, result) => {
+				if (err) {
+					callback(err, null);
+				} else {
+					if (!result) {
+						done();
+					} else {
+						//else update///
+						userData = result;
+						// logger.info('userData',JSON.stringify(userData,null,4));
+						logger.info('updating.....', userData._id, shortlist_user_id)
+						self.favourites.methods.removefromFav(userData._id, shortlist_user_id, (err, result) => {
+							if (err) {
+								logger.error('err', err);
+								done('err while removing userFav');
+							} else {
+								logger.info('result', result);
+								done();
+							}
+						})
+					}
+				}
+			});
+		}, function(done) {
+			//  outputRecord = JSON.parse(JSON.stringify(userData));
+
+			// delete outputRecord.password;
+			// delete outputRecord.otp;
+			done();
+
+		}], function(err) {
+			if (err) {
+				callback(err, null)
+			} else {
+				callback(null, 'success')
+			}
+
+		})
+
+	}
+	getShorListedUsers(callback) {
+		var user_id = this.request.params.user_id;
+		var userData = {};
+		var outputRecord;
+		var user_obj;
+		var self = this;
+		async.series([function(done) {
+			self.favourites.methods.getShortListedById(user_id, (err, result) => {
+				if (err) {
+					callback(err, null);
+				} else {
+					userData = result;
+					done();
+				}
+			});
+		}, function(done) {
+			//  outputRecord = JSON.parse(JSON.stringify(userData));
+
+			// delete outputRecord.password;
+			// delete outputRecord.otp;
+			done();
+
+		}], function(err) {
+			if (err) {
+				callback(err, null);
+			} else {
+				callback(null, userData);
+			}
+
+		})
+
+	}
+
 
 	userLogin(callback) {
 		var body = this.request.body;

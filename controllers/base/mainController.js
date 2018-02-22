@@ -359,7 +359,7 @@ class Controller extends Bindable {
 			}
 		});
 	}
-addSalary(req, callback) {
+	addSalary(req, callback) {
 		let dropDownController = new DropDownController(req);
 		let output = {};
 		dropDownController.addSalary((err, result) => {
@@ -389,7 +389,7 @@ addSalary(req, callback) {
 			}
 		});
 	}
-addState(req, callback) {
+	addState(req, callback) {
 		let dropDownController = new DropDownController(req);
 		let output = {};
 		dropDownController.addState((err, result) => {
@@ -419,7 +419,7 @@ addState(req, callback) {
 			}
 		});
 	}
-addWeight(req, callback) {
+	addWeight(req, callback) {
 		let dropDownController = new DropDownController(req);
 		let output = {};
 		dropDownController.addWeight((err, result) => {
@@ -438,6 +438,70 @@ addWeight(req, callback) {
 		let dropDownController = new DropDownController(req);
 		let output = {};
 		dropDownController.getWeight((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	getUserList(req, callback) {
+		let userController = new UserController(req);
+		// let dropDownController = new DropDownController(req);
+		let output = {};
+		userController.getUserList((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	shortlistUser(req, callback) {
+		let userController = new UserController(req);
+		// let dropDownController = new DropDownController(req);
+		let output = {};
+		userController.shortlistUser((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	removeShortListedUser(req, callback) {
+		let userController = new UserController(req);
+		// let dropDownController = new DropDownController(req);
+		let output = {};
+		userController.removeShortListedUser((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+	getShorListedUsers(req, callback) {
+		let userController = new UserController(req);
+		// let dropDownController = new DropDownController(req);
+		let output = {};
+		userController.getShorListedUsers((err, result) => {
 			if (err) {
 				output.status = 2;
 				output.data = err;
