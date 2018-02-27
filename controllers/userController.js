@@ -61,8 +61,13 @@ class UserController extends Bindable {
 				body.otp = otp;
 				self.users.create(body, (err, result) => {
 					if (err) {
-						console.log("userEmail already registered");
+						console.log("err->",err.code);
+						if(err.code=='11000'){
 						callback('Email already registered', null);
+						console.log("userEmail already registered");
+						}else{
+							callback('validation Failed',null);
+						}
 					} else {
 						userData = result;
 						done();
