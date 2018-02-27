@@ -50,7 +50,8 @@ class UserController extends Bindable {
 						if (!result) {
 							done();
 						} else {
-							callback('mobile already registered', null)
+							// console.log("userMobile already registered");
+							callback('Mobile already registered', null)
 						}
 					}
 				});
@@ -60,7 +61,8 @@ class UserController extends Bindable {
 				body.otp = otp;
 				self.users.create(body, (err, result) => {
 					if (err) {
-						callback(err, null);
+						console.log("userEmail already registered");
+						callback('Email already registered', null);
 					} else {
 						userData = result;
 						done();
@@ -516,6 +518,7 @@ class UserController extends Bindable {
 			outputRecord.id = outputRecord._id;
 			delete outputRecord._id;
 			delete outputRecord.password;
+			delete outputRecord.otp;
 
 			console.log("userRecord-->", outputRecord);
 			callback(null, outputRecord);

@@ -33,7 +33,13 @@ class Controller extends Bindable {
 		let output = {};
 		userController.userSignUp((err, result) => {
 			if (err) {
-				output.status = 2;
+				if (err == 'Mobile already registered') {
+					output.status = 2;
+				} else if (err == 'Email already registered') {
+					output.status = 3;
+				} else {
+					output.status = 4;
+				}
 				output.data = err;
 				callback(output);
 			} else {
