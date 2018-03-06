@@ -49,6 +49,13 @@ router.post('/shortListUser', function(req, res) {
        res.send(result);
     });
 });
+
+router.get('/get/allUserList', function(req, res) {
+   ctrl_base.getAllUserList(req,(result) => {
+       res.send(result);
+    });
+});
+
 router.get('/getShorListedUsers/:user_id', function(req, res) {
    ctrl_base.getShorListedUsers(req,(result) => {
        res.send(result);

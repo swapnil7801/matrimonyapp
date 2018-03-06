@@ -155,9 +155,59 @@
                     User.find({
                         role: 'user'
                     }).
-                    limit(2)
+                    limit(5)
                         .skip(parseInt(offset))
                         .exec(function(err, userRecord) {
+                            if (err) {
+                                console.log('Error while obtaining record user with ID=' + ' ' + err);
+                                callback(err, result);
+                            } else {
+                                // console.log('Result:' + JSON.stringify(userRecord));
+                                result.records = userRecord;
+                                // result.total = userRecord.length;
+                                // callback(err, result);
+                                done();
+                            }
+                        });
+                },
+                function(done) {
+                    User.find({role: 'user'})
+                    .exec(function(err, userRecord) {
+                            if (err) {
+                                console.log('Error while obtaining record user with ID=' + ' ' + err);
+                                callback(err, result);
+                            } else {
+                                // console.log('Result:' + JSON.stringify(userRecord));
+                                // result.records = userRecord;
+                                result.total = userRecord.length;
+                                // callback(err, result);
+                                done();
+                            }
+                        });
+                }
+            ], function(err) {
+                if(err){
+                callback(err, null);
+
+                }else{
+                    callback(null,result);
+                }
+
+            });
+
+
+
+        },
+          getAllUserAdmin: function(callback) {
+            logger.info('Start: User getAllUserAdmin->');
+            var result = {};
+            async.series([function(done) {
+                    // logger.info('Start: User getAll->', offset);
+                    // var result = {};
+                    User.find({
+                        role: 'user'
+                    })
+                    .exec(function(err, userRecord) {
                             if (err) {
                                 console.log('Error while obtaining record user with ID=' + ' ' + err);
                                 callback(err, result);

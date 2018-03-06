@@ -416,6 +416,37 @@ class DropDownController extends Bindable {
 			}
 		})
 	}
+		getGotraByCaste(callback) {
+		var res;
+		var self = this;
+		// console.log(body);
+		 // var casteID=this.request.query.casteId;
+		 var casteID=this.request.params.casteId;
+		// console.log(this.caste.methods);
+		async.series([function(done) {
+				//check mobile and password
+				done();
+			},
+			function(done) {
+				self.gotra.methods.getSubCaste(casteID,(err, result) => {
+					if (err) {
+						logger.info("error getting gotra ");
+						done(err);
+					} else {
+						res = result;
+						done();
+					}
+				})
+			}
+		], function(err) {
+			///main method;
+			if (err) {
+				callback(err, null);
+			} else {
+				callback(null, res);
+			}
+		})
+	}
 	addGotra(callback) {
 		var body = this.request.body;
 		//var dob = new Date(this.request.body.dob);

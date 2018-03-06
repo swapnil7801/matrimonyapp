@@ -9,8 +9,14 @@ var mongoose = require('mongoose'),
 logger = require(contextPath + '/utils/logger.js'),
     Schema = mongoose.Schema;
 var uniqueValidator = require('mongoose-unique-validator');
+    var caste = require(contextPath + '/models/common/caste.js');
+
 
 var gotraSchema = mongoose.Schema({
+    caste:{
+            type: Schema.Types.ObjectId,
+            ref: 'caste'
+        },
     name: String
     
 });
@@ -80,6 +86,23 @@ var methods = {
         // logger.info('Input id =' + id);
         var result = ""
         Gotra.find({}).exec(function(err, GotraRecords) {
+            if (err) {
+                console.log('Error while obtaining record Gotra=',err);
+                callback(err, result);
+            } else {
+                console.log('Result:' + JSON.stringify(GotraRecords));
+                result = GotraRecords;
+                callback(err, result);
+            }
+        });
+    },
+    getSubCaste: function(casteId,callback) {
+        logger.info('Start: Gotra getAll');
+        // logger.info('Input id =' + id);
+        var result = ""
+        Gotra.find({
+            caste:casteId
+        }).exec(function(err, GotraRecords) {
             if (err) {
                 console.log('Error while obtaining record Gotra=',err);
                 callback(err, result);

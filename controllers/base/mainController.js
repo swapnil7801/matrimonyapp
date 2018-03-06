@@ -305,6 +305,21 @@ class Controller extends Bindable {
 			}
 		});
 	}
+	getSubCaste(req, callback) {
+		let dropDownController = new DropDownController(req);
+		let output = {};
+		dropDownController.getGotraByCaste((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
 	addHeight(req, callback) {
 		let dropDownController = new DropDownController(req);
 		let output = {};
@@ -508,6 +523,23 @@ class Controller extends Bindable {
 		// let dropDownController = new DropDownController(req);
 		let output = {};
 		userController.getShorListedUsers((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+
+		getAllUserList(req, callback) {
+		let userController = new UserController(req);
+		// let dropDownController = new DropDownController(req);
+		let output = {};
+		userController.getAllUserList((err, result) => {
 			if (err) {
 				output.status = 2;
 				output.data = err;

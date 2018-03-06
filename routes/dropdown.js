@@ -118,5 +118,10 @@ router.get('/weight', function(req, res) {
    ctrl_base.getWeight(req,(result) => {
        res.send(result);
     });
+}); 
+router.get('/subCaste/:casteId', function(req, res) {
+   ctrl_base.getSubCaste(req,(result) => {
+       res.send(result);
+    });
 });              
 module.exports = router;
