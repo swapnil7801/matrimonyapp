@@ -29,7 +29,7 @@ var twilio_no='+19166686363';
 // var twilio_no='+1916-668-6363';
 var appconfig = {
 	db_url: mongodb_url,
-	app_env:"local",
+	app_env:"prod",
 	twilio_authToken:twilio_authToken,
 	twilio_accountSid:twilio_accountSid,
 	twilio_no:twilio_no
