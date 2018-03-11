@@ -551,6 +551,23 @@ class Controller extends Bindable {
 			}
 		});
 	}
+
+	   getFilterUserList(req, callback) {
+		let userController = new UserController(req);
+		// let dropDownController = new DropDownController(req);
+		let output = {};
+		userController.getFilterUserList((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
 }
 
 module.exports = Controller;

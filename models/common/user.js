@@ -101,7 +101,15 @@
             type: Schema.Types.ObjectId,
             ref: 'state'
         },
-        aboutMe: String
+        aboutMe: String,
+        martialStatus: String,
+        birthTime: String,
+        aadharCard: String,
+        panCard: String,
+        physicallyDisabled: String,
+        zodiacSign: String,
+        companyName:String
+        
     });
     // Apply the uniqueValidator plugin to userSchema.
     userSchema.plugin(uniqueValidator);

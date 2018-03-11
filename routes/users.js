@@ -66,4 +66,10 @@ router.post('/removeShortListedUser', function(req, res) {
        res.send(result);
     });
 });
+
+router.get('/get/filterUserList', function(req, res) {
+   ctrl_base.getFilterUserList(req,(result) => {
+       res.send(result);
+    });
+});
 module.exports = router;

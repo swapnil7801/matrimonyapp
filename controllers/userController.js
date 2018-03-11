@@ -571,6 +571,42 @@ class UserController extends Bindable {
 
 	}
 
+	getFilterUserList(callback) {
+		var offset = this.request.params.offset;
+		var userData = {};
+		var outputRecord;
+		var self = this;
+		async.series([function(done) {
+			self.users.methods.getAll(offset, (err, result) => {
+				if (err) {
+					callback(err, null);
+				} else {
+					if (!result) {
+						done('user Not found')
+					} else {
+						userData = result;
+						done();
+					}
+				}
+			});
+		}, function(done) {
+			//  outputRecord = JSON.parse(JSON.stringify(userData));
+
+			// delete outputRecord.password;
+			// delete outputRecord.otp;
+			done();
+
+		}], function(err) {
+			if (err) {
+				callback(err, null)
+			} else {
+				callback(null, userData)
+			}
+
+		})
+
+	}
+
 }
 
 module.exports = UserController;

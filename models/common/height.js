@@ -11,7 +11,7 @@ logger = require(contextPath + '/utils/logger.js'),
 var uniqueValidator = require('mongoose-unique-validator');
 
 var height = mongoose.Schema({
-    name: String
+    name: Number
     
 });
 // Apply the uniqueValidator plugin to height.
