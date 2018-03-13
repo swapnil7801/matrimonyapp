@@ -72,4 +72,10 @@ router.get('/get/filterUserList', function(req, res) {
        res.send(result);
     });
 });
+
+router.post('/uploadProfilePic/:id', function(req, res) {
+   ctrl_base.uploadProfilePic(req,(result) => {
+       res.send(result);
+    });
+});
 module.exports = router;

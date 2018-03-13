@@ -10,8 +10,14 @@ var routes = require('./routes/index');
 var users = require(contextPath+'/routes/users');
 var dropDown= require(contextPath+ '/routes/dropdown')
 let app_config = require(contextPath + '/config/app_config.js');
+const fileUpload = require('express-fileupload');
+
 
 var app = express();
+
+
+// default options
+app.use(fileUpload());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

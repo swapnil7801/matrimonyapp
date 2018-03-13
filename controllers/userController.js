@@ -12,6 +12,12 @@ var crypto = require('crypto');
 let async = require('async');
 var twilio = require('twilio');
 var client = new twilio(config.twilio_accountSid, config.twilio_authToken);
+var cloudinary = require('cloudinary')
+cloudinary.config({ 
+  cloud_name: config.Cloudname, 
+  api_key: config.APIKey, 
+  api_secret: config.APISecret 
+});
 class UserController extends Bindable {
 
 	constructor(request) {
@@ -571,13 +577,93 @@ class UserController extends Bindable {
 
 	}
 
+		uploadProfilePic(callback){
+		var user_id = this.request.params.id;
+		var reqObj = {};
+		 reqObj.profile='';
+		var self = this;
+		var db_user_data = {};
+		var user_obj = {};
+		var update_obj = {};
+		async.series([function(done) {
+			//
+			self.users.methods.getById(user_id, (err, res) => {
+				if (err) {
+					// callback(err, null);
+					done(err);
+				} else {
+					db_user_data = res;
+					done();
+				}
+			})
+		},function(done){
+			// reqObj.profile='test';
+			console.log("*******************************************");
+			// console.log(self.request.files);
+			console.log("*******************************************");
+			// cloudinary.v2.uploader.upload(self.request.files.profile.data,
+   //  			function(error, result){
+   //  				console.log(error)
+   //  				console.log(result)
+   //  				done();
+   //  			});
+			cloudinary.v2.uploader.upload_stream({
+						resource_type: 'auto',tags:['user']
+					},
+					function(error, result) {
+						console.log(error)
+						console.log(result)
+						reqObj.profile=result.url;
+						done();
+					})
+				.end(self.request.files.profile.data);
+
+			
+		}, function(done) {
+			console.log(" object1", db_user_data);
+			console.log("  object2", reqObj);
+
+			update_obj = Object.assign(db_user_data, reqObj);
+			console.log("updated object", update_obj);
+			self.users.methods.update(user_id, update_obj, (err, result) => {
+				if (err) {
+					callback(err, null);
+				} else {
+					done();
+				}
+			})
+		}, function(done) {
+			done();
+		}], function(err) {
+			if (err) {
+				callback("error in profile update " + err, null);
+			} else {
+				callback(null, "user profile updated")
+			}
+		})
+
+	}
 	getFilterUserList(callback) {
-		var offset = this.request.params.offset;
+		console.log("QueryParams-",this.request.query)
+
+		var offset = this.request.query.offset;
+		var minAge = this.request.query.minAge;
+		var maxAge = this.request.query.maxAge;
+		var minSalary = this.request.query.minSalary;
+		var maxSalary = this.request.query.maxSalary;
+		var minHeight = this.request.query.minHeight;
+		var maxHeight = this.request.query.maxHeight;
+
 		var userData = {};
 		var outputRecord;
 		var self = this;
 		async.series([function(done) {
-			self.users.methods.getAll(offset, (err, result) => {
+			 // if(offset && minHeight &&maxHeight && minSalary && maxSalary &&)
+
+			done();
+
+		},function(done) {
+			self.users.methods.getFilteredUser(self.request.query, (err, result) => {
 				if (err) {
 					callback(err, null);
 				} else {
