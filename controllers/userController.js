@@ -314,6 +314,43 @@ class UserController extends Bindable {
 		})
 
 	}
+
+	getUserRaw(callback) {
+		var user_id = this.request.params.id;
+		var userData = {};
+		var outputRecord;
+		var self = this;
+		async.series([function(done) {
+			self.users.methods.getById(user_id, (err, result) => {
+				if (err) {
+					callback(err, null);
+				} else {
+					if (!result) {
+						done('user Not found')
+					} else {
+						userData = result;
+						done();
+					}
+				}
+			});
+		}, function(done) {
+			outputRecord = JSON.parse(JSON.stringify(userData));
+
+			// delete outputRecord.password;
+			// delete outputRecord.otp;
+			done();
+
+		}], function(err) {
+			if (err) {
+				callback(err, null)
+			} else {
+				callback(null, outputRecord)
+			}
+
+		})
+
+	}
+
 	getUserList(callback) {
 		var offset = this.request.params.offset;
 		var userData = {};

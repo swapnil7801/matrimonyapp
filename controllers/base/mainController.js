@@ -125,6 +125,22 @@ class Controller extends Bindable {
 			}
 		});
 	}
+		getUserRaw(req, callback) {
+		let userController = new UserController(req);
+		let output = {};
+		userController.getUserRaw((err, result) => {
+			if (err) {
+				output.status = 2;
+				output.data = err;
+				callback(output);
+			} else {
+				output.status = 1;
+				output.data = result;
+				callback(output);
+			}
+		});
+	}
+
 	addCaste(req, callback) {
 		let dropDownController = new DropDownController(req);
 		let output = {};

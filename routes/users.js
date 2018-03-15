@@ -24,7 +24,7 @@ router.get('/otp/:mobileNo', function(req, res) {
   	   res.send(result);
   	});
 });
-router.put('/profile/:id', function(req, res) {
+router.put('/updateProfile/:id', function(req, res) {
    ctrl_base.updateProfile(req,(result) => {
   	   res.send(result);
   	});
@@ -38,6 +38,11 @@ router.get('/profile/:id', function(req, res) {
    ctrl_base.getUser(req,(result) => {
   	   res.send(result);
   	});
+});
+router.get('/profileRaw/:id', function(req, res) {
+   ctrl_base.getUserRaw(req,(result) => {
+       res.send(result);
+    });
 });
 router.get('/get/userList/:offset', function(req, res) {
    ctrl_base.getUserList(req,(result) => {
