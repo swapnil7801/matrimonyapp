@@ -311,6 +311,7 @@ class UserController extends Bindable {
 			    // otherwise, leave the value unchanged
 			    return value;
 			});
+			 outputRecord=JSON.parse(outputRecord);
 			done();
 
 		}], function(err) {
