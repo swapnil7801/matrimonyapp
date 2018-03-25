@@ -302,6 +302,15 @@ class UserController extends Bindable {
 
 			delete outputRecord.password;
 			delete outputRecord.otp;
+			 outputRecord= JSON.stringify(outputRecord, function(key, value) {
+			    // if value is null, return "" as a replacement
+			    if(value === null) {
+			        return "";
+			    }
+
+			    // otherwise, leave the value unchanged
+			    return value;
+			});
 			done();
 
 		}], function(err) {
