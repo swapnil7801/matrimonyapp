@@ -75,6 +75,7 @@
             type: Schema.Types.ObjectId,
             ref: 'gotra'
         },
+
         education: {
             type: Schema.Types.ObjectId,
             ref: 'education'
@@ -297,47 +298,47 @@
                 })
                 .populate({
                     path: 'city',
-                    select: 'name -_id'
+                    select: 'name '
                 })
                 .populate({
                     path: 'caste',
-                    select: 'name -_id'
+                    select: 'name '
                 })
                 .populate({
                     path: 'color',
-                    select: 'name -_id'
+                    select: 'name '
                 })
                 .populate({
                     path: 'country',
-                    select: 'name -_id'
+                    select: 'name '
                 })
                 .populate({
                     path: 'education',
-                    select: 'name -_id'
+                    select: 'name '
                 })
                 .populate({
                     path: 'occupation',
-                    select: 'name -_id'
+                    select: 'name '
                 })
                 .populate({
                     path: 'gotra',
-                    select: 'name -_id'
+                    select: 'name '
                 })
                 .populate({
                     path: 'height',
-                    select: 'name -_id'
+                    select: 'name '
                 })
                 .populate({
                     path: 'state',
-                    select: 'name -_id'
+                    select: 'name '
                 })
                 .populate({
                     path: 'salaryRange',
-                    select: 'name -_id'
+                    select: 'name '
                 })
                 .populate({
                     path: 'weight',
-                    select: 'name -_id'
+                    select: 'name '
                 })
                 .exec(function(err, userRecord) {
                     if (err) {
