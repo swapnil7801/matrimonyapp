@@ -304,8 +304,12 @@ class UserController extends Bindable {
 			delete outputRecord.otp;
 			 outputRecord= JSON.stringify(outputRecord, function(key, value) {
 			    // if value is null, return "" as a replacement
+			    var opObj={
+			    	_id:"",
+			    	name:""
+			    }
 			    if(value === null) {
-			        return "";
+			        return opObj;
 			    }
 
 			    // otherwise, leave the value unchanged
