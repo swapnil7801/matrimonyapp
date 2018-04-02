@@ -18,7 +18,7 @@ var mongodb_url = 'mongodb://localhost:27017/' + db_name;
 // 	db_port: process.env.db_port, //|| process.env.OPENSHIFT_MONGODB_DB_PORT,
 // 	db_host:  process.env.db_host,// || process.env.OPENSHIFT_MONGODB_DB_HOST,
 // 	db_name:  process.env.db_name,//  || process.env.OPENSHIFT_APP_NAME,
-// 	};
+/// 	};
 
 
 ////CHANGE THE app_env to LOCAL in local ENV.
